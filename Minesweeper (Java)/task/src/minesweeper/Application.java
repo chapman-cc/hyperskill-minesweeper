@@ -7,18 +7,18 @@ import minesweeper.model.MineField;
 public class Application {
     private final Input input;
     private final Output output;
-    private MineField minefiled;
+    private final MineField mineField;
 
     public Application() {
         this.input = new Input();
         this.output = new Output();
-        this.minefiled = new MineField();
+        this.mineField = new MineField();
     }
 
     public void run() {
         output.print("How many mines do you want on the field? ");
         int minesCount = input.nextInt("\\d+", e->{});
-        minefiled.setMinesByCount(minesCount);
-        minefiled.print(output::println);
+        mineField.setMinesByCount(minesCount);
+        mineField.print(output::println);
     }
 }

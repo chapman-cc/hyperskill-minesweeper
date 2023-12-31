@@ -42,7 +42,7 @@ public class BombCell {
                 '}';
     }
 
-    public static record Coordinate(int x, int y) {
+    public record Coordinate(int x, int y) {
         @Override
         public boolean equals(Object object) {
             if (this == object) return true;

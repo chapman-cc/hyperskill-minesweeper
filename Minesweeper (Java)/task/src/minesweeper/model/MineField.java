@@ -11,8 +11,8 @@ public class MineField {
     public static int ROW_COUNT = 9;
     public static int COL_COUNT = 9;
 
-    private BombCell[][] field;
-    private Map<Coordinate, BombCell> minesMap;
+    private final BombCell[][] field;
+    private final Map<Coordinate, BombCell> minesMap;
 
     public MineField() {
         this.field = new BombCell[COL_COUNT][ROW_COUNT];
