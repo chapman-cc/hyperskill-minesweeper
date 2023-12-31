@@ -108,34 +108,9 @@ files:
   - name: src/minesweeper/model/MineField.java
     visible: true
     learner_created: true
-feedback_link: https://hyperskill.org/projects/77/stages/427/implement#comment
-status: Failed
+feedback_link: https://hyperskill.org/learn/step/7201#comment
+status: Solved
 feedback:
-  message: |2
-
-    FAILURE: Build failed with an exception.
-
-    * What went wrong:
-    Could not resolve all files for configuration &#39;classpath&#39;.
-    &gt; Could not resolve com.github.hyperskill:hs-gradle-plugin:release-SNAPSHOT.
-      Required by:
-          unspecified:unspecified:unspecified
-       &gt; Could not resolve com.github.hyperskill:hs-gradle-plugin:release-SNAPSHOT.
-          &gt; Unable to load Maven meta-data from https://packages.jetbrains.team/maven/p/academy/hyperskill-hspc/com/github/hyperskill/hs-gradle-plugin/release-SNAPSHOT/maven-metadata.xml.
-             &gt; Could not HEAD &#39;https://packages.jetbrains.team/maven/p/academy/hyperskill-hspc/com/github/hyperskill/hs-gradle-plugin/release-SNAPSHOT/maven-metadata.xml&#39;.
-                &gt; packages.jetbrains.team: Name or service not known
-       &gt; Could not resolve com.github.hyperskill:hs-gradle-plugin:release-SNAPSHOT.
-          &gt; Unable to load Maven meta-data from https://jitpack.io/com/github/hyperskill/hs-gradle-plugin/release-SNAPSHOT/maven-metadata.xml.
-             &gt; Could not GET &#39;https://jitpack.io/com/github/hyperskill/hs-gradle-plugin/release-SNAPSHOT/maven-metadata.xml&#39;.
-                &gt; jitpack.io: Name or service not known
-
-    * Try:
-    &gt; Run with --stacktrace option to get the stack trace.
-    &gt; Run with --info or --debug option to get more log output.
-    &gt; Run with --scan to get full insights.
-
-    * Get more help at https://help.gradle.org
-
-    BUILD FAILED in 40s
-  time: "Sun, 31 Dec 2023 03:21:56 UTC"
-record: -1
+  message: Congratulations!
+  time: "Sun, 31 Dec 2023 04:37:06 UTC"
+record: 2
