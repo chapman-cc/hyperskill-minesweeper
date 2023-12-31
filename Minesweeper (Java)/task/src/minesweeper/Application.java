@@ -2,17 +2,17 @@ package minesweeper;
 
 import minesweeper.io.Input;
 import minesweeper.io.Output;
-import minesweeper.model.Minefiled;
+import minesweeper.model.MineField;
 
 public class Application {
     private final Input input;
     private final Output output;
-    private Minefiled minefiled;
+    private MineField minefiled;
 
     public Application() {
         this.input = new Input();
         this.output = new Output();
-        this.minefiled = new Minefiled();
+        this.minefiled = new MineField();
     }
 
     public void run() {

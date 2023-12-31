@@ -3,17 +3,18 @@ package minesweeper.model;
 import minesweeper.model.BombCell.Coordinate;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.function.Consumer;
 
-public class Minefiled {
+public class MineField {
     public static int ROW_COUNT = 9;
     public static int COL_COUNT = 9;
 
     private BombCell[][] field;
-    private HashMap<Integer, BombCell> minesMap;
+    private Map<Coordinate, BombCell> minesMap;
 
-    public Minefiled() {
+    public MineField() {
         this.field = new BombCell[COL_COUNT][ROW_COUNT];
         this.minesMap = new HashMap<>();
 
@@ -23,7 +24,7 @@ public class Minefiled {
                 int y = row + 1;
                 BombCell cell = new BombCell(x, y);
                 field[COL_COUNT - 1 - row][col] = cell;
-                minesMap.put(cell.hashCode(), cell);
+                minesMap.put(cell.getCoordinate(), cell);
             }
         }
     }
@@ -31,11 +32,10 @@ public class Minefiled {
     public void setMinesByCount(int count) {
         while (count > 0) {
             Random random = new Random();
-            int x = random.nextInt(1, ROW_COUNT);
-            int y = random.nextInt(1, COL_COUNT);
-            Coordinate coordinate = new Coordinate(x, y);
-            BombCell cell = minesMap.get(coordinate.hashCode());
-            if (!cell.isBomb()) {
+            int x = random.nextInt(1, ROW_COUNT + 1);
+            int y = random.nextInt(1, COL_COUNT + 1);
+            BombCell cell = minesMap.get(new Coordinate(x, y));
+            if (cell != null && !cell.isBomb()) {
                 cell.setBomb();
                 count--;
             }
