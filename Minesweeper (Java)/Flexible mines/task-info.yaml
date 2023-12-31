@@ -93,6 +93,24 @@ files:
           }
       }
     learner_created: false
-feedback_link: https://hyperskill.org/projects/77/stages/427/implement#comment
-status: Unchecked
-record: -1
+  - name: src/minesweeper/Application.java
+    visible: true
+    learner_created: true
+  - name: src/minesweeper/io/Input.java
+    visible: true
+    learner_created: true
+  - name: src/minesweeper/io/Output.java
+    visible: true
+    learner_created: true
+  - name: src/minesweeper/model/BombCell.java
+    visible: true
+    learner_created: true
+  - name: src/minesweeper/model/MineField.java
+    visible: true
+    learner_created: true
+feedback_link: https://hyperskill.org/learn/step/7201#comment
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Sun, 31 Dec 2023 04:37:06 UTC"
+record: 2

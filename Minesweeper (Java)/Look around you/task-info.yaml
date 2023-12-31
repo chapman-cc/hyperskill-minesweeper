@@ -142,6 +142,227 @@ files:
           }
       }
     learner_created: false
-feedback_link: https://hyperskill.org/projects/77/stages/428/implement#comment
+  - name: src/minesweeper/io/Output.java
+    visible: true
+    text: |
+      package minesweeper.io;
+      
+      import java.io.PrintStream;
+      
+      public class Output extends PrintStream {
+          public Output() {
+              super(System.out);
+          }
+      
+      }
+    learner_created: true
+  - name: src/minesweeper/model/MineField.java
+    visible: true
+    text: |
+      package minesweeper.model;
+      
+      import minesweeper.model.BombCell.Coordinate;
+      
+      import java.util.HashMap;
+      import java.util.Map;
+      import java.util.Random;
+      import java.util.function.Consumer;
+      
+      public class MineField {
+          public static int ROW_COUNT = 9;
+          public static int COL_COUNT = 9;
+      
+          private final BombCell[][] field;
+          private final Map<Coordinate, BombCell> minesMap;
+      
+          public MineField() {
+              this.field = new BombCell[COL_COUNT][ROW_COUNT];
+              this.minesMap = new HashMap<>();
+      
+              for (int col = 0; col < COL_COUNT; col++) {
+                  for (int row = 0; row < ROW_COUNT; row++) {
+                      int x = col + 1;
+                      int y = row + 1;
+                      BombCell cell = new BombCell(x, y);
+                      field[COL_COUNT - 1 - row][col] = cell;
+                      minesMap.put(cell.getCoordinate(), cell);
+                  }
+              }
+          }
+      
+          public void setMinesByCount(int count) {
+              while (count > 0) {
+                  Random random = new Random();
+                  int x = random.nextInt(1, ROW_COUNT + 1);
+                  int y = random.nextInt(1, COL_COUNT + 1);
+                  BombCell cell = minesMap.get(new Coordinate(x, y));
+                  if (cell != null && !cell.isBomb()) {
+                      cell.setBomb();
+                      count--;
+                  }
+              }
+          }
+      
+          public String getFormattedBoard() {
+              StringBuilder sb = new StringBuilder();
+              for (int i = 0; i < COL_COUNT; i++) {
+                  for (int j = 0; j < ROW_COUNT; j++) {
+                      BombCell cell = field[i][j];
+                      sb.append(cell.isBomb() ? "X" : ".");
+                  }
+                  sb.append("\n");
+              }
+              return sb.toString();
+          }
+      }
+    learner_created: true
+  - name: src/minesweeper/Application.java
+    visible: true
+    text: |
+      package minesweeper;
+      
+      import minesweeper.io.Input;
+      import minesweeper.io.Output;
+      import minesweeper.model.MineField;
+      
+      public class Application {
+          private final Input input;
+          private final Output output;
+          private final MineField mineField;
+      
+          public Application() {
+              this.input = new Input();
+              this.output = new Output();
+              this.mineField = new MineField();
+          }
+      
+          public void run() {
+              output.print("How many mines do you want on the field? ");
+              int MAX_COUNT = MineField.ROW_COUNT * MineField.COL_COUNT;
+              int minesCount = input.nextInt("\\b[1-9]\\b|\\b[1-7][0-9]\\b|\\b8[0-1]\\b", (e) -> output.printf("Only 1 to %d ", MAX_COUNT));
+              mineField.setMinesByCount(minesCount);
+              String board = mineField.getFormattedBoard();
+              output.println(board);
+          }
+      }
+    learner_created: true
+  - name: src/minesweeper/io/Input.java
+    visible: true
+    text: |
+      package minesweeper.io;
+      
+      import java.util.InputMismatchException;
+      import java.util.Scanner;
+      import java.util.function.Consumer;
+      
+      public class Input {
+          private final Scanner sc;
+      
+          public Input() {
+              this.sc = new Scanner(System.in);
+          }
+      
+          public String next() {
+              try {
+                  String input = sc.next();
+                  sc.nextLine();
+                  return input;
+              } catch (Exception e) {
+                  throw new RuntimeException(e);
+              }
+          }
+      
+          public int nextInt(String regex, Consumer<Exception> errorHandler) {
+              while (true) {
+                  try {
+                      String input = sc.next();
+                      if (!input.matches(regex)) {
+                          throw new InputMismatchException("Incorrect input");
+                      }
+                      return Integer.parseInt(input);
+      
+                  } catch (InputMismatchException e) {
+                      errorHandler.accept(e);
+                  }
+              }
+          }
+      
+          public void close() {
+              sc.close();
+          }
+      }
+    learner_created: true
+  - name: src/minesweeper/model/BombCell.java
+    visible: true
+    text: |
+      package minesweeper.model;
+      
+      import java.util.Objects;
+      
+      public class BombCell {
+          private boolean bomb;
+          private boolean hidden;
+          private final Coordinate coordinate;
+      
+          public BombCell(int x, int y) {
+              this(false, x, y);
+          }
+      
+          public BombCell(boolean bomb, int x, int y) {
+              this.bomb = bomb;
+              this.hidden = true;
+              this.coordinate = new Coordinate(x, y);
+          }
+      
+          public boolean isBomb() {
+              return bomb;
+          }
+      
+          public void setBomb() {
+              this.bomb = true;
+          }
+      
+          public void reveal() {
+              this.hidden = true;
+          }
+      
+          public Coordinate getCoordinate() {
+              return coordinate;
+          }
+      
+          @Override
+          public String toString() {
+              return "BombCell{" +
+                      "bomb=" + bomb +
+                      ", hidden=" + hidden +
+                      ", coordinate=" + coordinate +
+                      '}';
+          }
+      
+          public record Coordinate(int x, int y) {
+              @Override
+              public boolean equals(Object object) {
+                  if (this == object) return true;
+                  if (object == null || getClass() != object.getClass()) return false;
+                  Coordinate that = (Coordinate) object;
+                  return x == that.x && y == that.y;
+              }
+      
+              @Override
+              public int hashCode() {
+                  return Objects.hash(x, y);
+              }
+      
+              @Override
+              public String toString() {
+                  return "Coordinate{" +
+                          "x=" + x +
+                          ", y=" + y +
+                          '}';
+              }
+          }
+      }
+    learner_created: true
+feedback_link: https://hyperskill.org/learn/step/7202#comment
 status: Unchecked
-record: -1
+record: 3
