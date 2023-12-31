@@ -1,5 +1,6 @@
 package minesweeper.io;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -24,10 +25,12 @@ public class Input {
         while (true) {
             try {
                 String input = sc.next();
-                if (input.matches(regex)) {
-                    return Integer.parseInt(input);
+                if (!input.matches(regex)) {
+                    throw new InputMismatchException("Incorrect input");
                 }
-            } catch (NumberFormatException e) {
+                return Integer.parseInt(input);
+
+            } catch (InputMismatchException e) {
                 errorHandler.accept(e);
             }
         }

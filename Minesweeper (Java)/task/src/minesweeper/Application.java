@@ -17,8 +17,10 @@ public class Application {
 
     public void run() {
         output.print("How many mines do you want on the field? ");
-        int minesCount = input.nextInt("\\d+", e->{});
+        int MAX_COUNT = MineField.ROW_COUNT * MineField.COL_COUNT;
+        int minesCount = input.nextInt("\\b[1-9]\\b|\\b[1-7][0-9]\\b|\\b8[0-1]\\b", (e) -> output.printf("Only 1 to %d ", MAX_COUNT));
         mineField.setMinesByCount(minesCount);
-        mineField.print(output::println);
+        String board = mineField.getFormattedBoard();
+        output.println(board);
     }
 }

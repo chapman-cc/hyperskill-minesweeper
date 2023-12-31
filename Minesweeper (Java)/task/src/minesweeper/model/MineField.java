@@ -5,7 +5,6 @@ import minesweeper.model.BombCell.Coordinate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Consumer;
 
 public class MineField {
     public static int ROW_COUNT = 9;
@@ -42,7 +41,7 @@ public class MineField {
         }
     }
 
-    public void print(Consumer<String> printer) {
+    public String getFormattedBoard() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < COL_COUNT; i++) {
             for (int j = 0; j < ROW_COUNT; j++) {
@@ -51,6 +50,6 @@ public class MineField {
             }
             sb.append("\n");
         }
-        printer.accept(sb.toString());
+        return sb.toString();
     }
 }
