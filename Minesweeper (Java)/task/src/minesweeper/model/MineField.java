@@ -83,8 +83,6 @@ public class MineField {
                     continue;
                 }
                 sb.append(".");
-//                Coordinate coordinate = cell.getCoordinate();
-//                sb.append("[%d|%d]".formatted(coordinate.x(), coordinate.y()));
             }
 
             sb.append("\n");
