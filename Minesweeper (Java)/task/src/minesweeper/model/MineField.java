@@ -24,6 +24,15 @@ public class MineField {
                 BombCell cell = new BombCell(x, y);
                 field[COL_COUNT - 1 - row][col] = cell;
                 minesMap.put(cell.getCoordinate(), cell);
+
+                cell.setTop(minesMap.get(new Coordinate(x, y + 1)));
+                cell.setTopRight(minesMap.get(new Coordinate(x + 1, y + 1)));
+                cell.setRight(minesMap.get(new Coordinate(x + 1, y)));
+                cell.setBottomRight(minesMap.get(new Coordinate(x + 1, y - 1)));
+                cell.setBottom(minesMap.get(new Coordinate(x, y - 1)));
+                cell.setBottomLeft(minesMap.get(new Coordinate(x - 1, y - 1)));
+                cell.setLeft(minesMap.get(new Coordinate(x - 1, y)));
+                cell.setTopLeft(minesMap.get(new Coordinate(x - 1, y + 1)));
             }
         }
     }
@@ -37,17 +46,47 @@ public class MineField {
             if (cell != null && !cell.isBomb()) {
                 cell.setBomb();
                 count--;
+
+                for (BombCell c : new BombCell[]{
+                        cell.getTop(),
+                        cell.getTopRight(),
+                        cell.getRight(),
+                        cell.getBottomRight(),
+                        cell.getBottom(),
+                        cell.getBottomLeft(),
+                        cell.getLeft(),
+                        cell.getTopLeft()
+                }) {
+                    if (c != null) {
+                        c.addProximityBombsCountBy1();
+                    }
+
+                }
+
+
             }
         }
     }
+
 
     public String getFormattedBoard() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < COL_COUNT; i++) {
             for (int j = 0; j < ROW_COUNT; j++) {
                 BombCell cell = field[i][j];
-                sb.append(cell.isBomb() ? "X" : ".");
+                if (cell.isBomb()) {
+                    sb.append("X");
+                    continue;
+                }
+                if (cell.getProximityBombsCount() > 0) {
+                    sb.append(cell.getProximityBombsCount());
+                    continue;
+                }
+                sb.append(".");
+//                Coordinate coordinate = cell.getCoordinate();
+//                sb.append("[%d|%d]".formatted(coordinate.x(), coordinate.y()));
             }
+
             sb.append("\n");
         }
         return sb.toString();
