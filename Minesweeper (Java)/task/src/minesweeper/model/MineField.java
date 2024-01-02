@@ -62,16 +62,18 @@ public class MineField {
                     }
 
                 }
-
-
             }
         }
     }
 
 
     public String getFormattedBoard() {
+        String emptyLine = "-|---------|";
         StringBuilder sb = new StringBuilder();
+        sb.append(" |123456789|").append("\n");
+        sb.append(emptyLine).append("\n");
         for (int i = 0; i < COL_COUNT; i++) {
+            sb.append(i + 1).append("|");
             for (int j = 0; j < ROW_COUNT; j++) {
                 BombCell cell = field[i][j];
                 if (cell.isBomb()) {
@@ -85,8 +87,9 @@ public class MineField {
                 sb.append(".");
             }
 
-            sb.append("\n");
+            sb.append("|").append("\n");
         }
+        sb.append(emptyLine).append("\n");
         return sb.toString();
     }
 }
