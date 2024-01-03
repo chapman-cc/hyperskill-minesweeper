@@ -11,7 +11,6 @@ import static java.lang.Math.abs;
 class Grid {
 
     char[][] rows;
-
     Grid(String[] rows) throws Exception {
         this.rows = new char[rows.length][];
         for (int i = 0; i < rows.length; i++) {

@@ -1,5 +1,7 @@
 package minesweeper.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class BombCell {
@@ -7,15 +9,21 @@ public class BombCell {
     private boolean hidden;
     private final Coordinate coordinate;
     private int proximityBombsCount;
-    private BombCell top = null;
-    private BombCell topRight = null;
-    private BombCell right = null;
-    private BombCell bottomRight = null;
-    private BombCell bottom = null;
-    private BombCell bottomLeft = null;
-    private BombCell left = null;
-    private BombCell topLeft = null;
+    private boolean marked;
+    private BombCell top = null,
+            topRight = null,
+            right = null,
+            bottomRight = null,
+            bottom = null,
+            bottomLeft = null,
+            left = null,
+            topLeft = null;
 
+    {
+        hidden = true;
+        proximityBombsCount = 0;
+        marked = false;
+    }
 
     public BombCell(int x, int y) {
         this(false, x, y);
@@ -23,9 +31,7 @@ public class BombCell {
 
     public BombCell(boolean bomb, int x, int y) {
         this.bomb = bomb;
-        this.hidden = true;
         this.coordinate = new Coordinate(x, y);
-        this.proximityBombsCount = 0;
     }
 
     public BombCell getTop() {
@@ -136,6 +142,14 @@ public class BombCell {
         return proximityBombsCount;
     }
 
+    public boolean isMarked() {
+        return marked;
+    }
+
+    public void setMarked(boolean marked) {
+        this.marked = marked;
+    }
+
     public void setProximityBombsCount(int proximityBombsCount) {
         this.proximityBombsCount = proximityBombsCount;
     }
@@ -148,8 +162,35 @@ public class BombCell {
         this.hidden = true;
     }
 
+    public String getPrintFormat() {
+        if (!bomb && proximityBombsCount > 0) {
+            return String.valueOf(proximityBombsCount);
+        }
+        if (!marked && hidden) {
+            return ".";
+        }
+        if (marked) {
+            return "*";
+        }
+        return "X";
+    }
+
     public Coordinate getCoordinate() {
         return coordinate;
+    }
+
+    public List<BombCell> getSurroundingCells() {
+        List<BombCell> list = new ArrayList<>();
+        if (top != null) list.add(top);
+        if (topRight != null) list.add(topRight);
+        if (right != null) list.add(right);
+        if (bottomRight != null) list.add(bottomRight);
+        if (bottom != null) list.add(bottom);
+        if (bottomLeft != null) list.add(bottomLeft);
+        if (left != null) list.add(left);
+        if (topLeft != null) list.add(topLeft);
+        return list;
+
     }
 
     @Override
@@ -158,6 +199,8 @@ public class BombCell {
                 "bomb=" + bomb +
                 ", hidden=" + hidden +
                 ", coordinate=" + coordinate +
+                ", proximityBombsCount=" + proximityBombsCount +
+                ", marked=" + marked +
                 '}';
     }
 
