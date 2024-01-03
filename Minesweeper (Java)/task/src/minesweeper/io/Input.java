@@ -3,6 +3,7 @@ package minesweeper.io;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Input {
     private final Scanner sc;
@@ -11,13 +12,56 @@ public class Input {
         this.sc = new Scanner(System.in);
     }
 
+
     public String next() {
-        try {
-            String input = sc.next();
-            sc.nextLine();
-            return input;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        return next(e -> {
+        });
+    }
+
+    public String next(Consumer<Exception> errorHandler) {
+        return next(".+", errorHandler);
+    }
+
+    public String next(String regex, Consumer<Exception> errorHandler) {
+        while (true) {
+            try {
+                String input = sc.next();
+                sc.nextLine();
+                if (!input.matches(regex)) {
+                    throw new InputMismatchException("Incorrect Input");
+                }
+                return input;
+            } catch (Exception e) {
+                errorHandler.accept(e);
+            }
+        }
+    }
+
+    public String nextln(String regex, Consumer<Exception> errorHandler) {
+        while (true) {
+            try {
+                String input = sc.nextLine();
+                if (!input.matches(regex)) {
+                    throw new InputMismatchException("Incorrect Input");
+                }
+                return input;
+            } catch (Exception e) {
+                errorHandler.accept(e);
+            }
+        }
+    }
+
+    public int nextInt(Predicate<String> predicate, Consumer<Exception> errorHandler) {
+        while (true) {
+            try {
+                String input = sc.next();
+                if (!predicate.test(input)) {
+                    throw new InputMismatchException("Incorrect Input");
+                }
+                return Integer.parseInt(input);
+            } catch (InputMismatchException e) {
+                errorHandler.accept(e);
+            }
         }
     }
 
@@ -32,6 +76,8 @@ public class Input {
 
             } catch (InputMismatchException e) {
                 errorHandler.accept(e);
+            } finally {
+                sc.nextLine();
             }
         }
     }
