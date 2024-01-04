@@ -169,11 +169,19 @@ public class BombCell {
     }
 
     public String getPrintFormat() {
-        if (bomb && !hidden) return "X";
-        if (flagged) return "*";
-        if (!explored) return ".";
-        if (proximityBombsCount == 0) return "/";
-        return String.valueOf(proximityBombsCount);
+        if (bomb && !hidden) {
+            return "X";
+        }
+        if (flagged) {
+            return "*";
+        }
+        if (explored && !bomb) {
+            if (proximityBombsCount > 0) {
+                return String.valueOf(proximityBombsCount);
+            }
+            return "/";
+        }
+        return ".";
     }
 
     public Coordinate getCoordinate() {

@@ -79,7 +79,7 @@ public class MineField {
             int x = random.nextInt(1, ROW_COUNT + 1);
             int y = random.nextInt(1, COL_COUNT + 1);
             BombCell cell = minesMap.get(new Coordinate(x, y));
-            if (cell != null && !cell.isBomb()) {
+            if (cell != null) {
                 cell.setBomb();
                 bombs.put(cell.getCoordinate(), cell);
                 count--;
