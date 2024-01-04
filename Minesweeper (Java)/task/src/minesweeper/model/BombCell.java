@@ -227,4 +227,11 @@ public class BombCell {
                     '}';
         }
     }
+
+    enum State {
+        UNEXPLORED,
+        EXPLORED,
+        FLAGGED_AS_MINE,
+        REVEALED
+    }
 }

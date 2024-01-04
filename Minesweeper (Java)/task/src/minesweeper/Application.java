@@ -84,6 +84,9 @@ public class Application {
             if (map.containsKey(c.getCoordinate())) {
                 continue;
             }
+            if (c.isFlagged() && !c.isBomb()) {
+                c.setFlagged(false);
+            }
             if (c.getProximityBombsCount() > 0) {
                 c.setExplored(true);
                 continue;
@@ -102,7 +105,7 @@ public class Application {
     }
 
     enum UserInputKeyword {
-        MINE, FREE;
+        MINE, FREE
     }
 
     record UserInput(Coordinate coordinate, UserInputKeyword keyword) {

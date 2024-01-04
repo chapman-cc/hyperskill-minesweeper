@@ -53,6 +53,7 @@ public class MineField {
         }
         return true;
     }
+
     public boolean areAllBombsMarked() {
         for (BombCell bomb : bombs.values()) {
             if (!bomb.isFlagged()) {
@@ -82,11 +83,17 @@ public class MineField {
                 cell.setBomb();
                 bombs.put(cell.getCoordinate(), cell);
                 count--;
-                for (BombCell c : cell.getSurroundingCells()) {
-                    c.addProximityBombsCountBy1();
+            }
+        }
+
+        for (BombCell bomb : bombs.values()) {
+            for (BombCell surrounding : bomb.getSurroundingCells()) {
+                if (!surrounding.isBomb()) {
+                    surrounding.addProximityBombsCountBy1();
                 }
             }
         }
+
     }
 
 
