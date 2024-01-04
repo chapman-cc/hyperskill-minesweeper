@@ -7,7 +7,6 @@ import minesweeper.model.BombCell.Coordinate;
 import minesweeper.model.MineField;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -30,10 +29,7 @@ public class Application {
 
         while (true) {
             String board = mineField.getFormattedBoard();
-            List<Coordinate> bombs = mineField.getBombs().values().stream().map(BombCell::getCoordinate).toList();
             output.println(board);
-            output.println("Coordinates: ");
-            output.println(bombs);
 
             UserInput userInput = getUserInputCoordinate();
             BombCell cell = mineField.getBombCell(userInput.coordinate);
