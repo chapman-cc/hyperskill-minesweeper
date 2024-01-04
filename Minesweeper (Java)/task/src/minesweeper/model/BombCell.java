@@ -1,15 +1,16 @@
 package minesweeper.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.ArrayDeque;
 import java.util.Objects;
+import java.util.Queue;
 
 public class BombCell {
     private boolean bomb;
+    private boolean flagged;
+    private boolean explored;
     private boolean hidden;
     private final Coordinate coordinate;
     private int proximityBombsCount;
-    private boolean marked;
     private BombCell top = null,
             topRight = null,
             right = null,
@@ -20,9 +21,10 @@ public class BombCell {
             topLeft = null;
 
     {
+        flagged = false;
+        explored = false;
         hidden = true;
         proximityBombsCount = 0;
-        marked = false;
     }
 
     public BombCell(int x, int y) {
@@ -138,49 +140,48 @@ public class BombCell {
         this.bomb = true;
     }
 
+    public boolean isExplored() {
+        return explored;
+    }
+
+    public void setExplored(boolean explored) {
+        this.explored = explored;
+    }
+
+    public boolean isFlagged() {
+        return flagged;
+    }
+
+    public void setFlagged(boolean flagged) {
+        this.flagged = flagged;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
     public int getProximityBombsCount() {
         return proximityBombsCount;
-    }
-
-    public boolean isMarked() {
-        return marked;
-    }
-
-    public void setMarked(boolean marked) {
-        this.marked = marked;
-    }
-
-    public void setProximityBombsCount(int proximityBombsCount) {
-        this.proximityBombsCount = proximityBombsCount;
     }
 
     public void addProximityBombsCountBy1() {
         this.proximityBombsCount++;
     }
 
-    public void reveal() {
-        this.hidden = true;
-    }
-
     public String getPrintFormat() {
-        if (!bomb && proximityBombsCount > 0) {
-            return String.valueOf(proximityBombsCount);
-        }
-        if (!marked && hidden) {
-            return ".";
-        }
-        if (marked) {
-            return "*";
-        }
-        return "X";
+        if (bomb && !hidden) return "X";
+        if (flagged) return "*";
+        if (!explored) return ".";
+        if (proximityBombsCount == 0) return "/";
+        return String.valueOf(proximityBombsCount);
     }
 
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
-    public List<BombCell> getSurroundingCells() {
-        List<BombCell> list = new ArrayList<>();
+    public Queue<BombCell> getSurroundingCells() {
+        Queue<BombCell> list = new ArrayDeque<>();
         if (top != null) list.add(top);
         if (topRight != null) list.add(topRight);
         if (right != null) list.add(right);
@@ -197,10 +198,10 @@ public class BombCell {
     public String toString() {
         return "BombCell{" +
                 "bomb=" + bomb +
-                ", hidden=" + hidden +
+                ", flagged=" + flagged +
                 ", coordinate=" + coordinate +
                 ", proximityBombsCount=" + proximityBombsCount +
-                ", marked=" + marked +
+                ", marked=" + explored +
                 '}';
     }
 

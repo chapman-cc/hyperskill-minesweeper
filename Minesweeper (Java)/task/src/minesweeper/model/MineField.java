@@ -43,17 +43,29 @@ public class MineField {
         return bombs;
     }
 
+    public boolean areAllCellsMarked() {
+        for (BombCell[] col : field) {
+            for (BombCell cell : col) {
+                if (!cell.isExplored()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public boolean areAllBombsMarked() {
         for (BombCell bomb : bombs.values()) {
-            if (!bomb.isMarked()) {
+            if (!bomb.isFlagged()) {
                 return false;
             }
         }
         return true;
     }
 
-    public BombCell getBombCell(int x, int y) {
-        return getBombCell(new Coordinate(x, y));
+    public void revealAllMines() {
+        for (BombCell bomb : bombs.values()) {
+            bomb.setHidden(false);
+        }
     }
 
     public BombCell getBombCell(Coordinate coordinate) {
@@ -71,9 +83,7 @@ public class MineField {
                 bombs.put(cell.getCoordinate(), cell);
                 count--;
                 for (BombCell c : cell.getSurroundingCells()) {
-                    if (c != null) {
-                        c.addProximityBombsCountBy1();
-                    }
+                    c.addProximityBombsCountBy1();
                 }
             }
         }
