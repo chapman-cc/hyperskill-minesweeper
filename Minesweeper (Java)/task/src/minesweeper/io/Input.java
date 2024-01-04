@@ -4,6 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 public class Input {
     private final Scanner sc;
@@ -38,10 +39,15 @@ public class Input {
     }
 
     public String nextln(String regex, Consumer<Exception> errorHandler) {
+        Pattern pattern = Pattern.compile(regex);
+        return nextln(pattern, errorHandler);
+    }
+
+    public String nextln(Pattern pattern, Consumer<Exception> errorHandler) {
         while (true) {
             try {
                 String input = sc.nextLine();
-                if (!input.matches(regex)) {
+                if (!pattern.matcher(input).matches()) {
                     throw new InputMismatchException("Incorrect Input");
                 }
                 return input;
